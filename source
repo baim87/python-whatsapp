@@ -1,0 +1,45 @@
+#Import webdriver dari Selenium
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+
+#Masukkan driver Chrome
+driver = webdriver.Chrome('chromedriver')
+driver.maximize_window()
+#Menuju alamat yang dituju
+driver.get("http://web.whatsapp.com/")
+
+#Untuk meminta jumlah akun yang akan dikirim pesan
+a = int(input('Berapa akun : '))
+b = []
+
+#Perulangan sesuai jumlah akun yang dimaksukan
+for i in range(a):
+    c = str(1+i)
+    print('User yang ke-'+c)
+    #Memaksukan nama user
+    name = input("Masukkan User :")
+    #Menyimpannya pada variable b
+    b.append(name)
+
+#Masukkan pesan yang ingin dikirim
+msg = input('Masukkan Pesan :')
+#Untuk jeda
+input('Tekan Enter')
+
+#Perulangan sesuai dengan user yang telah dimasukkan
+#Dan variable b dimasukkan ke x
+for x in b :
+    #Mencari  dan mencari title lalu menggantinya dengan isi variable x
+    user = driver.find_element_by_xpath('//span[@title = "{}"]'.format(x))
+    #Lalu click untuk masuk ke chat user tersebut
+    user.click()
+    #Mencari element class '_13mgZ' ini adalah element text box untuk membuat pesan
+    msg_box = driver.find_element_by_class_name('_13mgZ')
+    #Memasukkan pesan yang udah di buat pada variable msg
+    msg_box.send_keys(msg)
+    #mencari element class '_3M-N-' ini adalah element button untuk send pesan
+    button = driver.find_element_by_class_name('_3M-N-')
+    #click untuk mengirim pesan
+    button.click()
+    #Sebagai info bahwa perintah udah dilaksanakan
+    print('Pesan ke ' + x + ' Sudah terkirim')
